@@ -1,0 +1,13 @@
+{
+  "kind": "image",
+  "prediction": {
+    "label": 0,
+    "label_name": "Real",
+    "probability": 7.334072051889962e-06
+  },
+  "original": "E:\\学习\\uni\\postgraduation\\dissertation\\code\\forensic_tool\\static\\results\\1786074052_6d785ffa\\original.png",
+  "overlay": "E:\\学习\\uni\\postgraduation\\dissertation\\code\\forensic_tool\\static\\results\\1786074052_6d785ffa\\attention_overlay.png",
+  "annotated": "E:\\学习\\uni\\postgraduation\\dissertation\\code\\forensic_tool\\static\\results\\1786074052_6d785ffa\\annotated.png",
+  "heatmap": "E:\\学习\\uni\\postgraduation\\dissertation\\code\\forensic_tool\\static\\results\\1786074052_6d785ffa\\attention_rollout.npy",
+  "boxes": []
+}

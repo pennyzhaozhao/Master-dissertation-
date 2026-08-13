@@ -1,0 +1,32 @@
+{
+  "kind": "image",
+  "prediction": {
+    "label": 1,
+    "label_name": "Manipulated",
+    "probability": 0.691605806350708
+  },
+  "original": "E:\\学习\\uni\\postgraduation\\dissertation\\code\\forensic_tool\\static\\results\\1786007232_993c6c0d\\original.png",
+  "overlay": "E:\\学习\\uni\\postgraduation\\dissertation\\code\\forensic_tool\\static\\results\\1786007232_993c6c0d\\attention_overlay.png",
+  "annotated": "E:\\学习\\uni\\postgraduation\\dissertation\\code\\forensic_tool\\static\\results\\1786007232_993c6c0d\\annotated.png",
+  "heatmap": "E:\\学习\\uni\\postgraduation\\dissertation\\code\\forensic_tool\\static\\results\\1786007232_993c6c0d\\attention_rollout.npy",
+  "boxes": [
+    [
+      51,
+      42,
+      42,
+      42
+    ],
+    [
+      138,
+      40,
+      34,
+      42
+    ],
+    [
+      184,
+      189,
+      40,
+      35
+    ]
+  ]
+}

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Image Result</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main class="shell">
+    
+    <section class="result-header">
+      <a href="/" class="back-link">New scan</a>
+      <div>
+        <p class="eyebrow">Image Analysis</p>
+        <h1>Real</h1>
+      </div>
+      <div class="score-card low">
+        <span>Manipulation score</span>
+        <strong>0.4%</strong>
+      </div>
+    </section>
+    
+    <section class="result-grid">
+      <figure class="media-panel">
+        <figcaption>Original</figcaption>
+        <img src="/static/results/1786006926_4f1be959/original.png" alt="Original upload">
+      </figure>
+      <figure class="media-panel">
+        <figcaption>Detection Overlay</figcaption>
+        <img src="/static/results/1786006926_4f1be959/annotated.png" alt="Annotated detection">
+      </figure>
+      <aside class="details-panel low">
+        <h2>Detection</h2>
+        <p class="verdict">Real</p>
+        <p>Manipulation: <strong>0.44%</strong></p>
+        <p>Regions found: <strong>0</strong></p>
+        <p>No manipulation was predicted; the original image is shown with the model score.</p>
+      </aside>
+    </section>
+  </main>
+</body>
+</html>
