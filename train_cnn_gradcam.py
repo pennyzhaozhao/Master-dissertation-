@@ -1,9 +1,5 @@
 """
 Train a custom CNN binary classifier and generate Grad-CAM explanations.
-
-This script uses only balanced split CSVs, filters missing/corrupted images,
-saves reusable filtered CSVs, trains a compact CNN, evaluates on test data, and
-exports Grad-CAM visualisations for TP/TN/FP/FN examples.
 """
 
 from __future__ import annotations
