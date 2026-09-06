@@ -1,8 +1,5 @@
 """
 Train and evaluate a KNN classifier on cached HOG features.
-
-Inputs must be the balanced CSV files produced by create_balanced_splits.py.
-The script does not modify image files.
 """
 
 from __future__ import annotations
