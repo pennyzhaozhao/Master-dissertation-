@@ -1,241 +1,120 @@
-# AI-Generated Facial Media Detection and Explainability
+# AI-Generated Facial Media Detection
 
-This repository contains the code used for a dissertation project on binary
-classification of authentic and manipulated facial media. The project compares
-traditional HOG-based machine-learning classifiers with deep-learning models,
-then adds explainability analysis and a small local forensic demonstration tool.
+This repository contains the code developed for an MSc dissertation on the
+detection of authentic and manipulated facial media.
 
-The binary label mapping used throughout the project is:
+The project compares four classification approaches:
 
-- `0`: Real
-- `1`: Manipulated
+- KNN + HOG
+- Linear SVM + HOG
+- CNN
+- Vision Transformer (ViT)
 
-The Manipulated class is treated as the positive class for precision, recall,
-F1-score and ROC-AUC reporting.
+The task is formulated as binary classification:
 
-## Project Overview
+- `0` = Real
+- `1` = Manipulated
 
-Four classifiers are implemented and evaluated:
+## Detection Scope
 
-- **KNN + HOG**: K-Nearest Neighbours using Histogram of Oriented Gradients
-  features.
-- **Linear SVM + HOG**: linear SVM implemented with `SGDClassifier(loss="hinge")`
-  using the same HOG feature pipeline.
-- **CNN**: a compact convolutional neural network trained end-to-end on images.
-- **ViT**: a fine-tuned Vision Transformer based on
-  `google/vit-base-patch16-224`.
+The current system is mainly designed for **AI-generated and deep-generative
+facial manipulation** represented in the training datasets, including:
 
-The main experimental aim is to compare classification performance and examine
-which image regions influence each model's predictions.
+- PGGAN-generated faces
+- StyleGAN-generated faces
+- StarGAN facial editing
+- FaceApp-style facial manipulation
+- Celeb-DF deepfake facial synthesis
+
+The detector is therefore intended as a **face-centred manipulation screening
+tool**, rather than a general-purpose image forensics system.
+
+It has not been specifically trained or validated for traditional manipulation
+types such as copy-move forgery, splicing, object insertion/removal or
+inpainting. These could be incorporated in future work using additional
+datasets and model training.
 
 ## Repository Structure
 
 ```text
 .
-|-- prepare_dataset.py
-|-- create_balanced_splits.py
-|-- train_knn_hog.py
-|-- train_linear_svm_hog.py
-|-- train_svm_hog.py
-|-- train_cnn_gradcam.py
-|-- train_vit.py
-|-- explainability_comparison.py
-|-- README_explainability_comparison.md
-`-- forensic_tool/
-    |-- app.py
-    |-- README.md
-    `-- static/
-        `-- style.css
-```
+├── Photos-Videos-Manipulations-Dataset/
+├── forensic_tool/
+├── prepare_dataset.py
+├── create_balanced_splits.py
+├── train_knn_hog.py
+├── train_linear_svm_hog.py
+├── train_svm_hog.py
+├── train_cnn_gradcam.py
+├── train_vit.py
+├── explainability_comparison.py
+├── requirements.txt
+└── README.md
+````
 
 ## Main Scripts
 
-| File | Purpose |
-| --- | --- |
-| `prepare_dataset.py` | Scans raw media, infers labels, extracts image/video frames, and creates train/validation/test CSV splits. |
-| `create_balanced_splits.py` | Creates balanced train/validation/test CSV files by downsampling the majority class. |
-| `train_knn_hog.py` | Trains and evaluates the KNN classifier using HOG features and a fitted `StandardScaler`. |
-| `train_linear_svm_hog.py` | Trains and evaluates the linear SVM HOG baseline using mini-batch `SGDClassifier`. |
-| `train_svm_hog.py` | Earlier SVM baseline script. |
-| `train_cnn_gradcam.py` | Trains/evaluates the CNN and generates CNN Grad-CAM visualisations. |
-| `train_vit.py` | Fine-tunes/evaluates the ViT classifier. |
-| `explainability_comparison.py` | Generates cross-model occlusion sensitivity maps for KNN, linear SVM, CNN and ViT. |
-| `forensic_tool/app.py` | Local web demo for uploading images/videos and detecting possible manipulation using the saved ViT model. |
+| File                           | Purpose                                                      |
+| ------------------------------ | ------------------------------------------------------------ |
+| `prepare_dataset.py`           | Prepares images and video frames and creates dataset splits. |
+| `create_balanced_splits.py`    | Balances the train, validation and test partitions.          |
+| `train_knn_hog.py`             | Trains and evaluates KNN using HOG features.                 |
+| `train_linear_svm_hog.py`      | Trains and evaluates the linear SVM using HOG features.      |
+| `train_cnn_gradcam.py`         | Trains the CNN and generates Grad-CAM explanations.          |
+| `train_vit.py`                 | Fine-tunes and evaluates the ViT model.                      |
+| `explainability_comparison.py` | Generates cross-model occlusion sensitivity heatmaps.        |
+| `forensic_tool/`               | Contains the local and Streamlit forensic screening tools.   |
 
-## Model Artifacts
+## Explainability
 
-The code expects trained model artifacts in the following default locations:
+The project compares spatial model behaviour using explainability techniques.
 
-```text
-outputs/models/knn_hog_model.joblib
-outputs/models/knn_hog_scaler.joblib
-outputs/models/linear_svm_hog_model.joblib
-outputs/models/linear_svm_hog_scaler.joblib
-outputs/cnn/models/cnn_best_model.pt
-outputs/vit/models/vit_best_model/
-```
+The generated heatmaps show which image regions influence model predictions.
+They should be interpreted as exploratory explanations of model behaviour, not
+as ground-truth localisation of manipulation artefacts.
 
-The ViT directory should contain:
+## Online Demo
 
-```text
-config.json
-model.safetensors
-preprocessor_config.json
-training_state.pt
-```
+A ViT-based prototype has been deployed using Streamlit:
 
-Large model checkpoints and datasets are not included in a lightweight GitHub
-code submission unless Git LFS or an external download link is used.
+**[https://deepfake-forensics.streamlit.app/](https://deepfake-forensics.streamlit.app/)**
 
-## Dataset Splits
+The application supports image and video upload and returns a `Real` or
+`Manipulated` prediction together with model confidence and visual explanation.
 
-The training scripts use CSV split files generated during preprocessing. The
-balanced split files are expected at:
+For videos, sampled frames are analysed individually using the trained
+image-based ViT detector.
+
+The tool is intended for research demonstration and forensic screening only. It
+should not be treated as a definitive determination of media authenticity.
+
+## Model Availability
+
+The trained ViT model used by the online demo is hosted on Hugging Face:
 
 ```text
-outputs/dataset/train_balanced.csv
-outputs/dataset/val_balanced.csv
-outputs/dataset/test_balanced.csv
+Penny1507288/deepfake_detection
 ```
 
-The CNN and ViT scripts also save filtered CSV files after removing missing or
-unreadable images:
+Most trained checkpoints, datasets and generated experiment outputs are not
+included in this GitHub repository because of file size.
 
-```text
-outputs/cnn/filtered_csvs/
-outputs/vit/filtered_csvs/
-```
+The repository mainly contains the code required to reproduce the experimental
+pipeline and explainability analysis.
 
-All reported test metrics in the dissertation are based on the independent test
-partition. The train/validation/test split should not be altered when reviewing
-or reproducing the reported results.
+## Future Work
 
-## Running the Model Training Scripts
+Future extensions could include:
 
-The trained models already exist for the dissertation results. The following
-commands are examples only and should not be run unless retraining is intended.
+* copy-move forgery detection
+* image splicing
+* object insertion/removal
+* inpainting
+* diffusion-generated imagery
+* temporal deepfake video analysis
+* broader cross-dataset robustness testing
 
-```powershell
-python train_knn_hog.py `
-  --train_csv outputs\dataset\train_balanced.csv `
-  --val_csv outputs\dataset\val_balanced.csv `
-  --test_csv outputs\dataset\test_balanced.csv `
-  --output_dir outputs
-```
+## Disclaimer
 
-```powershell
-python train_linear_svm_hog.py `
-  --train_csv outputs\dataset\train_balanced.csv `
-  --val_csv outputs\dataset\val_balanced.csv `
-  --test_csv outputs\dataset\test_balanced.csv `
-  --output_dir outputs
-```
-
-```powershell
-python train_cnn_gradcam.py `
-  --train_csv outputs\dataset\train_balanced.csv `
-  --val_csv outputs\dataset\val_balanced.csv `
-  --test_csv outputs\dataset\test_balanced.csv `
-  --output_dir outputs\cnn
-```
-
-```powershell
-python train_vit.py --output_dir outputs\vit
-```
-
-## Explainability Analysis
-
-The cross-model explainability script loads the saved trained models and does
-not retrain them. It applies occlusion sensitivity in image coordinates.
-
-For HOG-based models, each occluded image passes through:
-
-```text
-image preprocessing -> HOG extraction -> fitted StandardScaler -> trained classifier
-```
-
-For CNN and ViT, the evaluation-time resizing and normalisation pipelines are
-used.
-
-To generate representative qualitative examples grouped by true label:
-
-```powershell
-python explainability_comparison.py `
-  --qualitative_examples `
-  --qualitative_per_label 3 `
-  --patch_size 32 `
-  --stride 32 `
-  --output_dir outputs\qualitative_comparison
-```
-
-This produces:
-
-```text
-outputs/qualitative_comparison/qualitative/original_cross_model_heatmaps.png
-outputs/qualitative_comparison/qualitative/manipulated_cross_model_heatmaps.png
-outputs/qualitative_comparison/qualitative/qualitative_cross_model_results.csv
-```
-
-The qualitative figures are representative examples only. They should not be
-used to report new accuracy estimates.
-
-## Interpreting Heatmaps
-
-The heatmaps show model sensitivity to spatial occlusion, not ground-truth
-manipulation masks.
-
-In the qualitative comparison figures, each heatmap is oriented towards the
-class predicted by that model:
-
-- If a model predicts **Manipulated**, warmer colours indicate regions whose
-  occlusion reduces evidence for the Manipulated decision.
-- If a model predicts **Real**, warmer colours indicate regions whose occlusion
-  reduces evidence for the Real decision.
-
-The displayed heatmaps are normalised separately for visual inspection, while
-the raw arrays are saved for reference. Therefore, colour intensity should not be
-compared directly across models as an absolute measure of explanation strength.
-
-For KNN, probability values are based on discrete nearest-neighbour votes. With
-`k=11`, probabilities can only take values such as `0/11`, `1/11`, ..., `11/11`.
-Some KNN heatmaps may therefore appear weak when local occlusions do not change
-the neighbour vote.
-
-## Local Forensic Demo Tool
-
-I uploaded the model to Hugging Face, and deployed it on Streamlit, you can click the website to view it
-https://deepfake-forensics.streamlit.app/
-
-
-## Files Usually Excluded From GitHub
-
-The following files/folders are generated outputs, datasets or large model
-artifacts and are normally excluded from a code-review repository:
-
-```text
-outputs/
-Celeb-DF-v2/
-ffhq/
-stargan/
-stylegan_ffhq/
-pggan_v1/
-pggan_v2/
-faceapp/
-forensic_tool/static/results/
-forensic_tool/*.log
-forensic_tool/upload_test_response.html
-__pycache__/
-.skimage_cache/
-```
-
-If model checkpoints are required for reproduction, use Git LFS or provide an
-external download link and place the files in the expected `outputs/` paths.
-
-## Notes for Reviewers
-
-- The reported dissertation results are based on the saved outputs generated
-  from the independent test split.
-- The explainability figures are qualitative and should be interpreted alongside
-  the quantitative performance metrics and confusion matrices.
-- The local forensic tool is intended as a demonstration of the trained ViT
-  model, not as a production forensic system.
+This repository contains a research prototype developed for academic purposes.
+Model outputs should support, rather than replace, formal forensic examination.
