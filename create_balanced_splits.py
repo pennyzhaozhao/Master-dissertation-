@@ -1,8 +1,5 @@
 """
 Create class-balanced CSV splits by downsampling the majority class.
-
-This script does not move, copy, or modify media files. It only reads existing
-train/val/test CSV files and writes balanced CSV files plus a JSON summary.
 """
 
 from __future__ import annotations
