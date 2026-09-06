@@ -38,7 +38,6 @@ datasets and model training.
 
 ```text
 .
-├── Photos-Videos-Manipulations-Dataset/
 ├── forensic_tool/
 ├── prepare_dataset.py
 ├── create_balanced_splits.py
