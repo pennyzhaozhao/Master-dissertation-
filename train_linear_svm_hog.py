@@ -1,9 +1,5 @@
 """
 Large-scale Linear SVM baseline on cached HOG features.
-
-This script is intended for full-size balanced datasets where RBF SVM is too
-slow. It trains a linear SVM with SGDClassifier(loss="hinge") using mini-batch
-partial_fit, so progress is visible and runtime scales much better.
 """
 
 from __future__ import annotations
