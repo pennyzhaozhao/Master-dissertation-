@@ -203,39 +203,9 @@ the neighbour vote.
 
 ## Local Forensic Demo Tool
 
-The `forensic_tool` folder contains a lightweight local web application for
-demonstration purposes. It uses the saved ViT model to analyse uploaded images
-or videos.
+I uploaded the model to Hugging Face, and deployed it on Streamlit, you can click the website to view it
+https://deepfake-forensics.streamlit.app/
 
-Run:
-
-```powershell
-python forensic_tool/app.py
-```
-
-Open on the same computer:
-
-```text
-http://127.0.0.1:7860
-```
-
-For local-network demonstration, the app listens on `0.0.0.0` by default. The
-terminal prints a LAN URL such as:
-
-```text
-http://192.168.x.x:7860
-```
-
-The tool outputs:
-
-- predicted label
-- Manipulated probability
-- attention-rollout overlay
-- annotated suspicious regions for images or high-risk video frames
-- per-frame CSV report for videos
-
-The visual explanation in the demo is attention-based and should be interpreted
-as model behaviour, not proof of exact manipulated pixels.
 
 ## Files Usually Excluded From GitHub
 
