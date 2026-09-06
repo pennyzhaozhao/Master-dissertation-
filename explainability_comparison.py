@@ -1,8 +1,5 @@
 """
 Compare spatial explanations for KNN-HOG, Linear SVM-HOG, CNN, and ViT models.
-
-This script loads existing trained artifacts only. It never trains, refits,
-calibrates, or overwrites checkpoints.
 """
 
 from __future__ import annotations
