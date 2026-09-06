@@ -1,12 +1,5 @@
 """
 Fine-tune a pretrained Vision Transformer for binary facial manipulation detection.
-
-Default behavior:
-- If CSV paths are not provided, use CNN filtered CSVs from outputs/cnn/filtered_csvs.
-- If those do not exist, fall back to outputs/dataset/*_balanced.csv.
-
-The script saves filtered CSVs, checkpoints, training history, test metrics,
-predictions, ROC/confusion matrix plots, and a final run summary.
 """
 
 from __future__ import annotations
